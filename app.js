@@ -79,6 +79,43 @@ topMenuEl.addEventListener("click", (event) => {
     return;
   } else {
     topMenuLinks.forEach((a) => a.classList.remove("active"));
+    mainEl.innerHTML = `<h1>${event.target.textContent}</h1>`;
+    console.dir(event.target);
     event.target.classList.toggle("active");
+
+    if (event.target.classList.contains("active")) {
+      const currentLink = event.target.innerHTML;
+      menuLinks.forEach((link) => {
+        if (link.text === currentLink) {
+          if (link.hasOwnProperty("subLinks")) {
+            subMenuEl.style.top = "100%";
+            buildSubmenu(link.subLinks);
+          } else {
+            subMenuEl.style.top = "0";
+          }
+        }
+      });
+    }
+  }
+});
+
+function buildSubmenu(array) {
+  subMenuEl.innerHTML = "";
+  array.forEach((link) => {
+    let aEl = document.createElement("a");
+    aEl.setAttribute("href", link.href);
+    aEl.innerHTML = `${link.text}`;
+    subMenuEl.append(aEl);
+  });
+}
+
+subMenuEl.addEventListener("click", (event) => {
+  event.preventDefault();
+  if (!event.target.matches("a")) {
+    return;
+  } else {
+    subMenuEl.style.top = "0";
+    topMenuLinks.forEach((link) => link.classList.remove("active"));
+    mainEl.innerHTML = `<h1>${event.target.innerHTML}</h1>`;
   }
 });
