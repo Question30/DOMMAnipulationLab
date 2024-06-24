@@ -1,3 +1,5 @@
+import { buildSubmenu } from "./helper.js";
+
 // Menu data structure
 var menuLinks = [
   { text: "about", href: "/about" },
@@ -89,7 +91,7 @@ topMenuEl.addEventListener("click", (event) => {
         if (link.text === currentLink) {
           if (link.hasOwnProperty("subLinks")) {
             subMenuEl.style.top = "100%";
-            buildSubmenu(link.subLinks);
+            buildSubmenu(link.subLinks, subMenuEl);
           } else {
             subMenuEl.style.top = "0";
           }
@@ -98,16 +100,6 @@ topMenuEl.addEventListener("click", (event) => {
     }
   }
 });
-
-function buildSubmenu(array) {
-  subMenuEl.innerHTML = "";
-  array.forEach((link) => {
-    let aEl = document.createElement("a");
-    aEl.setAttribute("href", link.href);
-    aEl.innerHTML = `${link.text}`;
-    subMenuEl.append(aEl);
-  });
-}
 
 subMenuEl.addEventListener("click", (event) => {
   event.preventDefault();
